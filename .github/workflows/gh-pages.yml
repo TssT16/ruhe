@@ -6,18 +6,24 @@ on:
       - main
   pull_request:
 
+permissions:
+  contents: write
+
+env:
+  PNPM_VERSION: 7.24.3
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - run: npm i -g pnpm
-      - uses: actions/checkout@v4
+      - run: npm i -g pnpm@${PNPM_VERSION}
+      - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 18
 
       - name: Installing pnpm
-        run: npm i -g pnpm
+        run: npm i -g pnpm@${PNPM_VERSION}
 
       - name: Installing deps
         run: pnpm install
