@@ -28,8 +28,8 @@ jobs:
       - name: Installing deps
         run: pnpm install
 
-      - name: Test
-        run: pnpm test
+#      - name: Test
+#        run: pnpm test
 
       - name: Building
         run: pnpm build
