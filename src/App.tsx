@@ -9,7 +9,7 @@ const App: Component = () => {
       <header class={styles.header}>
         <img src={logo} class={styles.logo} alt="logo" />
         <p>
-          Omg, why is this not wokring?
+          First step PWA
         </p>
         <a
           class={styles.link}
