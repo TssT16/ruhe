@@ -8,9 +8,9 @@ const App: Component = () => {
     <div class={styles.App}>
       <header class={styles.header}>
         <img src={logo} class={styles.logo} alt="logo" />
-        <p>
-          First step PWA
-        </p>
+        <h1 class="text-6xl font-bold underline">
+          Tailwind Works
+        </h1>
         <a
           class={styles.link}
           href="https://github.com/solidjs/solid"
