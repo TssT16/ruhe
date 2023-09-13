@@ -18,7 +18,8 @@ export default defineConfig({
       base: '/',
       manifest: {
         name: 'Ruhe',
-        short_name: 'Ruhe'
+        short_name: 'Ruhe',
+        theme_color: '#ffffff',
       },
     }),
   ],
