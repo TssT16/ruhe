@@ -15,3 +15,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.progress-ring__circle {
+  transition: stroke-dashoffset linear 1s;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
