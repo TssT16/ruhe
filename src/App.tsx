@@ -14,6 +14,7 @@ const App: Component = () =>
   const [count, setCount] = createSignal(4);
   const [text, setText] = createSignal("");
   const [show, setShow] = createSignal(false);
+  const [backaudio, setBackaudio] = createSignal();
 
   const updateCircle = () =>
   {
@@ -22,7 +23,8 @@ const App: Component = () =>
       if(0 == percent())
       {
         setCount(inhale()+1)
-        new Audio('audio/inhale.mp3').play()
+        backaudio().src = "audio/inhale.mp3"
+        backaudio().play()
         setText("Inhale")
       }
 
@@ -33,7 +35,8 @@ const App: Component = () =>
       if(100 == percent())
       {
         setCount(exhale()+1)
-        new Audio('audio/exhale.mp3').play()
+        backaudio().src = "audio/exhale.mp3"
+        backaudio().play()
         setText("Exhale")
       }
 
@@ -58,6 +61,7 @@ const App: Component = () =>
   const startCircle = () =>
   {
     setShow(true)
+    setBackaudio(new Audio('audio/inhale.mp3'))
     setTimeout(updateCircle, 50)
   };
 
