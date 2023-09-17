@@ -54,8 +54,11 @@ const App: Component = () =>
       setPercent(0)
     }
 
-    setCount(count()-1)
-    setTimeout(updateCircle, 1000)
+    if(show())
+    {
+      setCount(count()-1)
+      setTimeout(updateCircle, 1000)
+    }
   }
 
   const startCircle = () =>
@@ -73,6 +76,7 @@ const App: Component = () =>
           fallback={<button class="btn btn-blue" onClick={startCircle}>Start</button>}
         >
           <BreathCircle percent={percent()} text={text()} count={count()}/>
+          <button class="btn btn-blue" onClick={() => setShow(false)}>Stop</button>
         </Show>
       </header>
     </div>
