@@ -16,6 +16,9 @@ export default defineConfig({
       mode: 'development',
       registerType: 'autoUpdate',
       base: '/',
+      includeAssets: [
+        'audio/inhale.mp3',
+        'audio/exhale.mp3'],
       manifest: {
         name: 'Ruhe',
         short_name: 'Ruhe',

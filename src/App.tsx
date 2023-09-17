@@ -1,16 +1,19 @@
-import { createSignal, type Component } from 'solid-js';
+import { createSignal, type Component, Show } from 'solid-js';
 
 import logo from './logo.svg';
 import styles from './App.module.css';
 import { BreathCircle } from "./BreathCircle";
 
-const App: Component = () => {
+const App: Component = () =>
+{
 
   const [percent, setPercent] = createSignal(0);
   const [state, setState] = createSignal(0);
   const [inhale, setInhale] = createSignal(4);
   const [exhale, setExhale] = createSignal(6);
   const [count, setCount] = createSignal(4);
+  const [text, setText] = createSignal("");
+  const [show, setShow] = createSignal(false);
 
   const updateCircle = () =>
   {
@@ -19,6 +22,8 @@ const App: Component = () => {
       if(0 == percent())
       {
         setCount(inhale()+1)
+        new Audio('audio/inhale.mp3').play()
+        setText("Inhale")
       }
 
       setPercent(percent() + 100/inhale())
@@ -28,6 +33,8 @@ const App: Component = () => {
       if(100 == percent())
       {
         setCount(exhale()+1)
+        new Audio('audio/exhale.mp3').play()
+        setText("Exhale")
       }
 
       setPercent(percent() - 100/exhale())
@@ -47,12 +54,22 @@ const App: Component = () => {
     setCount(count()-1)
     setTimeout(updateCircle, 1000)
   }
-  setTimeout(updateCircle, 1000)
+
+  const startCircle = () =>
+  {
+    setShow(true)
+    setTimeout(updateCircle, 50)
+  };
 
   return (
     <div class={styles.App}>
       <header class={styles.header}>
-        <BreathCircle percent={percent()} count={count()}/>
+        <Show
+          when={show()}
+          fallback={<button class="btn btn-blue" onClick={startCircle}>Start</button>}
+        >
+          <BreathCircle percent={percent()} text={text()} count={count()}/>
+        </Show>
       </header>
     </div>
   );

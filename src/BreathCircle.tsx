@@ -33,6 +33,7 @@ export function BreathCircle(props)
         cy="60"/>
       
     </svg>
+    <span class="text-2xl">{props.text}</span>
     <span class="text-2xl">{props.count}</span>
   </>
 }
