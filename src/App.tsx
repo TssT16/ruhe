@@ -104,7 +104,7 @@ const App: Component = () =>
         <Match when={1 == show()}>
           <BreathCircle percent={percent()} text={text()} count={count()}/>
           <button class="btn btn-blue" onClick={stopCircle}>Stop</button>
-          <span class="absolute bottom-0 right-1 text-xs">{time()}</span>
+          <span class="absolute bottom-0 right-16 sm:right-1 text-xs">{time()}</span>
         </Match>
         <Match when={2 == show()}>
           <button class="btn btn-blue" onClick={() => {setDuration(10);startCircle()}}>10 min</button>
