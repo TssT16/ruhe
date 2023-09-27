@@ -1,8 +1,12 @@
-import { createSignal, type Component, Show } from 'solid-js';
+import { createSignal, type Component, Show, Switch, Match } from 'solid-js';
 
 import logo from './logo.svg';
 import styles from './App.module.css';
 import { BreathCircle } from "./BreathCircle";
+
+function pad2(number) {
+  return (number < 10 ? '0' : '') + number
+}
 
 const App: Component = () =>
 {
@@ -13,11 +17,22 @@ const App: Component = () =>
   const [exhale, setExhale] = createSignal(6);
   const [count, setCount] = createSignal(4);
   const [text, setText] = createSignal("");
-  const [show, setShow] = createSignal(false);
+  const [show, setShow] = createSignal(0);
   const [backaudio, setBackaudio] = createSignal();
+
+  const [timeStart, setTimeStart] = createSignal(0);
+  const [duration, setDuration] = createSignal(5); // in minutes
+  const [time, setTime] = createSignal("");
 
   const updateCircle = () =>
   {
+    let distance = timeStart() - Date.now();
+    setTime(pad2(parseInt((distance % (1000 * 60 * 60)) / (1000 * 60)))+":"+pad2(parseInt((distance % (1000 * 60)) / 1000)))
+    if(1000 > distance)
+    {
+      setShow(0)
+    }
+
     if(0 == state())
     {
       if(0 == percent())
@@ -54,30 +69,49 @@ const App: Component = () =>
       setPercent(0)
     }
 
-    if(show())
+    if(1 == show())
     {
       setCount(count()-1)
       setTimeout(updateCircle, 1000)
+    }
+    else
+    {
+      setState(0)
+      setPercent(0)
     }
   }
 
   const startCircle = () =>
   {
-    setShow(true)
+    setShow(1)
     setBackaudio(new Audio('audio/inhale.mp3'))
     setTimeout(updateCircle, 50)
+    setTimeStart(Date.now()+duration()*60*1000)
+  };
+
+  const stopCircle = () =>
+  {
+    setShow(0)
   };
 
   return (
     <div class={styles.App}>
       <header class={styles.header}>
-        <Show
-          when={show()}
-          fallback={<button class="btn btn-blue" onClick={startCircle}>Start</button>}
-        >
+      <Switch fallback={<div>Not Found</div>}>
+        <Match when={0 == show()}>
+          <button class="btn btn-blue" onClick={() => setShow(2)}>Start</button>
+        </Match>
+        <Match when={1 == show()}>
           <BreathCircle percent={percent()} text={text()} count={count()}/>
-          <button class="btn btn-blue" onClick={() => setShow(false)}>Stop</button>
-        </Show>
+          <button class="btn btn-blue" onClick={stopCircle}>Stop</button>
+          <span class="absolute bottom-0 right-1 text-xs">{time()}</span>
+        </Match>
+        <Match when={2 == show()}>
+          <button class="btn btn-blue" onClick={() => {setDuration(10);startCircle()}}>10 min</button>
+          <button class="btn btn-blue mt-3 !px-6" onClick={() => {setDuration(5);startCircle()}}>5 min</button>
+          <button class="btn btn-blue mt-3 !px-6" onClick={() => {setDuration(1);startCircle()}}>1 min</button>
+        </Match>
+      </Switch>
       </header>
     </div>
   );
