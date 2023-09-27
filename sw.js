@@ -78,14 +78,14 @@ define(['./workbox-ab7aa862'], (function (workbox) { 'use strict';
    * See https://goo.gl/S9QRab
    */
   workbox.precacheAndRoute([{
-    "url": "assets/index-c88e1efe.css",
+    "url": "assets/index-69ee9ec8.js",
     "revision": null
   }, {
-    "url": "assets/index-e0a8aa38.js",
+    "url": "assets/index-ecacf1c8.css",
     "revision": null
   }, {
     "url": "index.html",
-    "revision": "4fc4602e4e27eb5e8107119d94a0c9bf"
+    "revision": "8846f344b370fa5eb9c88ceacc97693f"
   }, {
     "url": "registerSW.js",
     "revision": "1872c500de691dce40960bb85481de07"
@@ -96,8 +96,38 @@ define(['./workbox-ab7aa862'], (function (workbox) { 'use strict';
     "url": "audio/exhale.mp3",
     "revision": "ca5d68c966c989a5e508a8cfcaba029a"
   }, {
+    "url": "icons/icon-48x48.png",
+    "revision": "4b9cf11faa6ffa2e6961714de767cde3"
+  }, {
+    "url": "icons/favicon.ico",
+    "revision": "715e85a3c65fd229a318ae9e89ae209f"
+  }, {
+    "url": "icons/icon-128x128.png",
+    "revision": "dbd017369ed1395c9c056ed92811fe1a"
+  }, {
+    "url": "icons/icon-144x144.png",
+    "revision": "b110df2add395479494e38e7cf7a7319"
+  }, {
+    "url": "icons/icon-152x152.png",
+    "revision": "06bd90950a303457f1a35c03a2ef9e68"
+  }, {
+    "url": "icons/icon-192x192.png",
+    "revision": "5f7c886101482b44248cb545178c6bd2"
+  }, {
+    "url": "icons/icon-384x384.png",
+    "revision": "79b1a8f3872ce121b48040c602188b6d"
+  }, {
+    "url": "icons/icon-512x512.png",
+    "revision": "50b52da5e7f02810761a32bcc5099d08"
+  }, {
+    "url": "icons/icon-72x72.png",
+    "revision": "44aa4bc784f84467ac06e222cc2da581"
+  }, {
+    "url": "icons/icon-96x96.png",
+    "revision": "88ce0a601df3b26f8bb10f22078f143c"
+  }, {
     "url": "manifest.webmanifest",
-    "revision": "a9489be3b0ebbfe5ace77156ca045590"
+    "revision": "442c97dbdff8bd5eb6b513ac0da5ab6a"
   }], {});
   workbox.cleanupOutdatedCaches();
   workbox.registerRoute(new workbox.NavigationRoute(workbox.createHandlerBoundToURL("index.html")));
