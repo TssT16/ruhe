@@ -8,30 +8,9 @@ function pad2(number) {
   return (number < 10 ? '0' : '') + number
 }
 
-//background audio
-var actx = new (AudioContext || webkitAudioContext)(),
-  src = 'audio/water.mp3',
-  audioData, srcNode;
-
-fetch(src, {mode: "cors"}).then(function(resp) {return resp.arrayBuffer()}).then(decode);
-// Decode the audio file, then start the show
-function decode(buffer) {
-  actx.decodeAudioData(buffer, playLoop);
-}
-
-// Sets up a new source node as needed as stopping will render current invalid
-function playLoop(abuffer) {
-  if (!audioData) audioData = abuffer;  // create a reference for control buttons
-  srcNode = actx.createBufferSource();  // create audio source
-  srcNode.buffer = abuffer;             // use decoded buffer
-  srcNode.connect(actx.destination);    // create output
-  srcNode.loop = true;                  // takes care of perfect looping
-  srcNode.start();                      // play...
-}
-
 const App: Component = () =>
 {
-  
+
   const [percent, setPercent] = createSignal(0);
   const [state, setState] = createSignal(0);
   const [inhale, setInhale] = createSignal(4);
@@ -40,6 +19,8 @@ const App: Component = () =>
   const [text, setText] = createSignal("");
   const [show, setShow] = createSignal(0);
   const [backaudio, setBackaudio] = createSignal();
+  const [backgroundAudio1, setBackgroundAudio1] = createSignal();
+  const [backgroundAudio2, setBackgroundAudio2] = createSignal();
 
   const [timeStart, setTimeStart] = createSignal(0);
   const [duration, setDuration] = createSignal(5); // in minutes
@@ -102,18 +83,30 @@ const App: Component = () =>
     }
   }
 
+  const startBackgroundAudio1 = () =>
+  {
+    if(0 != show())
+    {
+      backgroundAudio1().play()
+      setTimeout(startBackgroundAudio2, 10600)
+    }
+  }
+  const startBackgroundAudio2 = () =>
+  {
+    if(0 != show())
+    {
+      backgroundAudio2().play()
+      setTimeout(startBackgroundAudio1, 10600)
+    }
+  }
+
   const startCircle = () =>
   {
     setShow(1)
     setBackaudio(new Audio('audio/inhale.mp3'))
-    if (actx.state === 'suspended')
-    {
-      actx.resume()
-    }
-    else
-    {
-      playLoop(audioData)
-    }
+    setBackgroundAudio1(new Audio('audio/water.mp3'))
+    setBackgroundAudio2(new Audio('audio/water.mp3'))
+    startBackgroundAudio1()
     setTimeout(updateCircle, 50)
     setTimeStart(Date.now()+duration()*60*1000)
   };
@@ -121,7 +114,8 @@ const App: Component = () =>
   const stopCircle = () =>
   {
     setShow(0)
-    actx.suspend()
+    backgroundAudio1().pause()
+    backgroundAudio2().pause()
   };
 
   return (
