@@ -4,15 +4,14 @@ import logo from './logo.svg';
 import styles from './App.module.css';
 import { BreathCircle } from "./BreathCircle";
 
-function pad2(number) {
+function pad2(number)
+{
   return (number < 10 ? '0' : '') + number
 }
 
 const App: Component = () =>
 {
-
   const [percent, setPercent] = createSignal(0);
-  const [state, setState] = createSignal(0);
   const [inhale, setInhale] = createSignal(4);
   const [exhale, setExhale] = createSignal(6);
   const [count, setCount] = createSignal(4);
@@ -26,49 +25,44 @@ const App: Component = () =>
   const [duration, setDuration] = createSignal(5); // in minutes
   const [time, setTime] = createSignal("");
 
+  const [timeLoop, setTimeLoop] = createSignal(0);
+
   const updateCircle = () =>
   {
-    let distance = timeStart() - Date.now();
-    setTime(pad2(parseInt((distance % (1000 * 60 * 60)) / (1000 * 60)))+":"+pad2(parseInt((distance % (1000 * 60)) / 1000)))
-    if(1000 > distance)
+    setTimeLoop(Math.round(backaudio().currentTime % 10))
+
+    let distance = timeStart() - backaudio().currentTime;
+    setTime(pad2(parseInt((distance % (60 * 60)) / 60))+":"+pad2(parseInt((distance % 60))))
+    if(backaudio().paused)
     {
       setShow(0)
     }
 
-    if(0 == state())
+    if(timeLoop() < inhale() || timeLoop() == 10)
     {
-      if(0 == percent())
+      //console.log("i: "+timeLoop())
+      if(0 == timeLoop() || timeLoop() == 10)
       {
-        setCount(inhale()+1)
-        backaudio().src = "audio/inhale.mp3"
-        backaudio().play()
         setText("Inhale")
+        setCount(inhale()+1)
       }
 
       setPercent(percent() + 100/inhale())
     }
-    else if(1 == state())
+    else if(timeLoop() >= inhale())
     {
-      if(100 == percent())
+      //console.log("e: "+timeLoop())
+      if(inhale() == timeLoop())
       {
-        setCount(exhale()+1)
-        backaudio().src = "audio/exhale.mp3"
-        backaudio().play()
         setText("Exhale")
+        setCount(exhale()+1)
       }
 
       setPercent(percent() - 100/exhale())
-    }
-
-    if(99 < percent())
-    {
-      setState(1)
-      setPercent(100)
-    }
-    else if(1 > percent())
-    {
-      setState(0)
-      setPercent(0)
+      if(1 > percent())
+      {
+        setPercent(0)
+      }
     }
 
     if(1 == show())
@@ -78,7 +72,6 @@ const App: Component = () =>
     }
     else
     {
-      setState(0)
       setPercent(0)
     }
   }
@@ -88,7 +81,7 @@ const App: Component = () =>
     if(0 != show())
     {
       backgroundAudio1().play()
-      setTimeout(startBackgroundAudio2, 10600)
+      setTimeout(startBackgroundAudio2, 10000)
     }
   }
   const startBackgroundAudio2 = () =>
@@ -96,19 +89,20 @@ const App: Component = () =>
     if(0 != show())
     {
       backgroundAudio2().play()
-      setTimeout(startBackgroundAudio1, 10600)
+      setTimeout(startBackgroundAudio1, 10000)
     }
   }
 
   const startCircle = () =>
   {
     setShow(1)
-    setBackaudio(new Audio('audio/inhale.mp3'))
+    setBackaudio(new Audio("audio/4-6_"+duration()+"min.mp3"))
+    backaudio().play()
     setBackgroundAudio1(new Audio('audio/water.mp3'))
     setBackgroundAudio2(new Audio('audio/water.mp3'))
     startBackgroundAudio1()
     setTimeout(updateCircle, 50)
-    setTimeStart(Date.now()+duration()*60*1000)
+    setTimeStart(duration()*60)
   };
 
   const stopCircle = () =>
@@ -116,6 +110,7 @@ const App: Component = () =>
     setShow(0)
     backgroundAudio1().pause()
     backgroundAudio2().pause()
+    backaudio().pause()
   };
 
   return (

@@ -17,8 +17,10 @@ export default defineConfig({
       registerType: 'autoUpdate',
       base: '/',
       includeAssets: [
-        'audio/inhale.mp3',
-        'audio/exhale.mp3',
+        'audio/4-6_1min.mp3',
+        'audio/4-6_5min.mp3',
+        'audio/4-6_10min.mp3',
+        'audio/water.mp3',
         'icons/*'],
       manifest: {
         name: 'Ruhe',
