@@ -177,7 +177,7 @@ const App: Component = () =>
   return (
     <div class={styles.App}>
       <header class={styles.header}>
-      <span class="absolute bottom-0 left-16 sm:left-1 text-xs">{"v0.04"}</span>
+      <span class="absolute bottom-0 left-16 sm:left-1 text-xs">{"v0.05"}</span>
       <Switch fallback={<div>Not Found</div>}>
         <Match when={0 == show()}>
           <button class="btn btn-blue" onClick={() => setShow(2)}>Breathing 4-6</button>
