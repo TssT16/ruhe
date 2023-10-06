@@ -17,9 +17,9 @@ const App: Component = () =>
   const [count, setCount] = createSignal(4);
   const [text, setText] = createSignal("");
   const [show, setShow] = createSignal(0);
-  const [backaudio, setBackaudio] = createSignal();
-  const [backgroundAudio1, setBackgroundAudio1] = createSignal();
-  const [backgroundAudio2, setBackgroundAudio2] = createSignal();
+  const [backaudio, setBackaudio] = createSignal(null);
+  const [backgroundAudio1, setBackgroundAudio1] = createSignal(null);
+  const [backgroundAudio2, setBackgroundAudio2] = createSignal(null);
 
   const [timeStart, setTimeStart] = createSignal(0);
   const [duration, setDuration] = createSignal(5); // in minutes
@@ -40,7 +40,7 @@ const App: Component = () =>
       if(workSession())
       {
         setShow(3)
-        setBackaudio(new Audio("audio/binaural_meditation_25min.mp3"))
+        backaudio().src = "audio/binaural_meditation_25min.mp3"
         backaudio().play()
         setDuration(25)
         setTimeStart(duration()*60)
@@ -118,10 +118,20 @@ const App: Component = () =>
   const startCircle = () =>
   {
     setShow(1)
-    setBackaudio(new Audio("audio/4-6_"+duration()+"min.mp3"))
+    if(null == backaudio())
+    {
+      setBackaudio(new Audio("audio/4-6_"+duration()+"min.mp3"))
+    }
+    else
+    {
+      backaudio().src = "audio/4-6_"+duration()+"min.mp3"
+    }
     backaudio().play()
-    setBackgroundAudio1(new Audio('audio/water.mp3'))
-    setBackgroundAudio2(new Audio('audio/water.mp3'))
+    if(null == backgroundAudio1())
+    {
+      setBackgroundAudio1(new Audio('audio/water.mp3'))
+      setBackgroundAudio2(new Audio('audio/water.mp3'))
+    }
     startBackgroundAudio1()
     setTimeout(updateCircle, 500)
     setText("Inhale")
@@ -143,8 +153,11 @@ const App: Component = () =>
     setTime(pad2(parseInt((distance % (60 * 60)) / 60))+":"+pad2(parseInt((distance % 60))))
     if(backaudio().paused)
     {
-      setDuration(5)
-      startCircle()
+      if(3 == show())
+      {
+        setDuration(5)
+        startCircle()
+      }
     }
 
     if(3 == show())
@@ -164,7 +177,7 @@ const App: Component = () =>
   return (
     <div class={styles.App}>
       <header class={styles.header}>
-      <span class="absolute bottom-0 left-16 sm:left-1 text-xs">{"v0.03"}</span>
+      <span class="absolute bottom-0 left-16 sm:left-1 text-xs">{"v0.04"}</span>
       <Switch fallback={<div>Not Found</div>}>
         <Match when={0 == show()}>
           <button class="btn btn-blue" onClick={() => setShow(2)}>Breathing 4-6</button>
