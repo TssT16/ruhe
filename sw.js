@@ -85,7 +85,7 @@ define(['./workbox-ab7aa862'], (function (workbox) { 'use strict';
     "revision": null
   }, {
     "url": "index.html",
-    "revision": "30e324343b1c817f192254517f8d6820"
+    "revision": "d632cb881fcef1fc1795f80b07774979"
   }, {
     "url": "registerSW.js",
     "revision": "1872c500de691dce40960bb85481de07"
@@ -105,6 +105,9 @@ define(['./workbox-ab7aa862'], (function (workbox) { 'use strict';
     "url": "audio/binaural_meditation_25min.mp3",
     "revision": "7b525f69330ae840ce8fe4e0be5feaf2"
   }, {
+    "url": "icons/icon-48x48.png",
+    "revision": "4b9cf11faa6ffa2e6961714de767cde3"
+  }, {
     "url": "icons/favicon.ico",
     "revision": "715e85a3c65fd229a318ae9e89ae209f"
   }, {
@@ -122,9 +125,6 @@ define(['./workbox-ab7aa862'], (function (workbox) { 'use strict';
   }, {
     "url": "icons/icon-384x384.png",
     "revision": "79b1a8f3872ce121b48040c602188b6d"
-  }, {
-    "url": "icons/icon-48x48.png",
-    "revision": "4b9cf11faa6ffa2e6961714de767cde3"
   }, {
     "url": "icons/icon-512x512.png",
     "revision": "50b52da5e7f02810761a32bcc5099d08"
