@@ -29,7 +29,7 @@ const App: Component = () =>
 
   const updateCircle = () =>
   {
-    setTimeLoop(Math.round(backaudio().currentTime % 10))
+    setTimeLoop((Math.round(backaudio().currentTime)% 10))
 
     let distance = timeStart() - backaudio().currentTime;
     setTime(pad2(parseInt((distance % (60 * 60)) / 60))+":"+pad2(parseInt((distance % 60))))
@@ -48,6 +48,10 @@ const App: Component = () =>
       }
 
       setPercent(percent() + 100/inhale())
+      if(100 < percent())
+      {
+        setPercent(100)
+      }
     }
     else if(timeLoop() >= inhale())
     {
@@ -68,7 +72,7 @@ const App: Component = () =>
     if(1 == show())
     {
       setCount(count()-1)
-      setTimeout(updateCircle, 1000)
+      setTimeout(updateCircle, (1000 - (backaudio().currentTime - parseInt(backaudio().currentTime))*1000))
     }
     else
     {
@@ -101,7 +105,9 @@ const App: Component = () =>
     setBackgroundAudio1(new Audio('audio/water.mp3'))
     setBackgroundAudio2(new Audio('audio/water.mp3'))
     startBackgroundAudio1()
-    setTimeout(updateCircle, 50)
+    setTimeout(updateCircle, 500)
+    setText("Inhale")
+    setCount(inhale())
     setTimeStart(duration()*60)
   };
 
@@ -116,6 +122,7 @@ const App: Component = () =>
   return (
     <div class={styles.App}>
       <header class={styles.header}>
+      <span class="absolute bottom-0 left-16 sm:left-1 text-xs">{"v0.01"}</span>
       <Switch fallback={<div>Not Found</div>}>
         <Match when={0 == show()}>
           <button class="btn btn-blue" onClick={() => setShow(2)}>Start</button>
