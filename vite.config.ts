@@ -21,6 +21,7 @@ export default defineConfig({
         'audio/4-6_5min.mp3',
         'audio/4-6_10min.mp3',
         'audio/water.mp3',
+        'audio/binaural_meditation_25min.mp3',
         'icons/*'],
       manifest: {
         name: 'Ruhe',

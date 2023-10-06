@@ -26,6 +26,7 @@ const App: Component = () =>
   const [time, setTime] = createSignal("");
 
   const [timeLoop, setTimeLoop] = createSignal(0);
+  const [workSession, setWorkSession] = createSignal(false);
 
   const updateCircle = () =>
   {
@@ -36,6 +37,15 @@ const App: Component = () =>
     if(backaudio().paused)
     {
       stopCircle()
+      if(workSession())
+      {
+        setShow(3)
+        setBackaudio(new Audio("audio/binaural_meditation_25min.mp3"))
+        backaudio().play()
+        setDuration(25)
+        setTimeStart(duration()*60)
+        setTimeout(updateWorkSession, 500)
+      }
     }
 
     if(timeLoop() < inhale() || timeLoop() == 10)
@@ -90,7 +100,7 @@ const App: Component = () =>
 
   const startBackgroundAudio1 = () =>
   {
-    if(0 != show())
+    if(1 == show())
     {
       backgroundAudio1().play()
       setTimeout(startBackgroundAudio2, 10000)
@@ -98,7 +108,7 @@ const App: Component = () =>
   }
   const startBackgroundAudio2 = () =>
   {
-    if(0 != show())
+    if(1 == show())
     {
       backgroundAudio2().play()
       setTimeout(startBackgroundAudio1, 10000)
@@ -127,13 +137,38 @@ const App: Component = () =>
     backaudio().pause()
   };
 
+  const updateWorkSession = () =>
+  {
+    let distance = timeStart() - backaudio().currentTime;
+    setTime(pad2(parseInt((distance % (60 * 60)) / 60))+":"+pad2(parseInt((distance % 60))))
+    if(backaudio().paused)
+    {
+      setDuration(5)
+      startCircle()
+    }
+
+    if(3 == show())
+    {
+      let delay = 1000 - (backaudio().currentTime - parseInt(backaudio().currentTime))*1000
+      if(100 < delay)
+      {
+        setTimeout(updateWorkSession, (1000 - (backaudio().currentTime - parseInt(backaudio().currentTime))*1000))
+      }
+      else
+      {
+        setTimeout(updateWorkSession, 1000)
+      }
+    }
+  }
+
   return (
     <div class={styles.App}>
       <header class={styles.header}>
-      <span class="absolute bottom-0 left-16 sm:left-1 text-xs">{"v0.02"}</span>
+      <span class="absolute bottom-0 left-16 sm:left-1 text-xs">{"v0.03"}</span>
       <Switch fallback={<div>Not Found</div>}>
         <Match when={0 == show()}>
-          <button class="btn btn-blue" onClick={() => setShow(2)}>Start</button>
+          <button class="btn btn-blue" onClick={() => setShow(2)}>Breathing 4-6</button>
+          <button class="btn btn-blue mt-3" onClick={() => {setDuration(10);startCircle();setWorkSession(true)}}>Working session</button>
         </Match>
         <Match when={1 == show()}>
           <BreathCircle percent={percent()} text={text()} count={count()}/>
@@ -141,9 +176,14 @@ const App: Component = () =>
           <span class="absolute bottom-0 right-16 sm:right-1 text-xs">{time()}</span>
         </Match>
         <Match when={2 == show()}>
-          <button class="btn btn-blue" onClick={() => {setDuration(10);startCircle()}}>10 min</button>
-          <button class="btn btn-blue mt-3 !px-6" onClick={() => {setDuration(5);startCircle()}}>5 min</button>
-          <button class="btn btn-blue mt-3 !px-6" onClick={() => {setDuration(1);startCircle()}}>1 min</button>
+          <button class="btn btn-blue" onClick={() => {setDuration(10);startCircle();setWorkSession(false)}}>10 min</button>
+          <button class="btn btn-blue mt-3 !px-6" onClick={() => {setDuration(5);startCircle();setWorkSession(false)}}>5 min</button>
+          <button class="btn btn-blue mt-3 !px-6" onClick={() => {setDuration(1);startCircle();setWorkSession(false)}}>1 min</button>
+          <button class="btn btn-blue mt-3 !px-6" onClick={() => setShow(0)}>Back</button>
+        </Match>
+        <Match when={3 == show()}>
+          <button class="btn btn-blue" onClick={stopCircle}>Stop</button>
+          <span class="absolute bottom-0 right-16 sm:right-1 text-xs">{time()}</span>
         </Match>
       </Switch>
       </header>
