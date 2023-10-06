@@ -35,7 +35,7 @@ const App: Component = () =>
     setTime(pad2(parseInt((distance % (60 * 60)) / 60))+":"+pad2(parseInt((distance % 60))))
     if(backaudio().paused)
     {
-      setShow(0)
+      stopCircle()
     }
 
     if(timeLoop() < inhale() || timeLoop() == 10)
@@ -72,7 +72,15 @@ const App: Component = () =>
     if(1 == show())
     {
       setCount(count()-1)
-      setTimeout(updateCircle, (1000 - (backaudio().currentTime - parseInt(backaudio().currentTime))*1000))
+      let delay = 1000 - (backaudio().currentTime - parseInt(backaudio().currentTime))*1000
+      if(100 < delay)
+      {
+        setTimeout(updateCircle, (1000 - (backaudio().currentTime - parseInt(backaudio().currentTime))*1000))
+      }
+      else
+      {
+        setTimeout(updateCircle, 1000)
+      }
     }
     else
     {
@@ -122,7 +130,7 @@ const App: Component = () =>
   return (
     <div class={styles.App}>
       <header class={styles.header}>
-      <span class="absolute bottom-0 left-16 sm:left-1 text-xs">{"v0.01"}</span>
+      <span class="absolute bottom-0 left-16 sm:left-1 text-xs">{"v0.02"}</span>
       <Switch fallback={<div>Not Found</div>}>
         <Match when={0 == show()}>
           <button class="btn btn-blue" onClick={() => setShow(2)}>Start</button>
