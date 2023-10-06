@@ -78,26 +78,29 @@ define(['./workbox-ab7aa862'], (function (workbox) { 'use strict';
    * See https://goo.gl/S9QRab
    */
   workbox.precacheAndRoute([{
-    "url": "assets/index-40eff562.js",
-    "revision": null
-  }, {
     "url": "assets/index-7b136843.css",
     "revision": null
   }, {
+    "url": "assets/index-919235b0.js",
+    "revision": null
+  }, {
     "url": "index.html",
-    "revision": "53041c5a417258333536eab3084e8f26"
+    "revision": "43ac2506ec45e8fc555ca10217cd7c30"
   }, {
     "url": "registerSW.js",
     "revision": "1872c500de691dce40960bb85481de07"
   }, {
-    "url": "audio/inhale.mp3",
-    "revision": "8e6a0b249cc752380debef6ead74c194"
+    "url": "audio/4-6_1min.mp3",
+    "revision": "ff78c262a573441e0683420090a4ce80"
   }, {
-    "url": "audio/exhale.mp3",
-    "revision": "ca5d68c966c989a5e508a8cfcaba029a"
+    "url": "audio/4-6_5min.mp3",
+    "revision": "be3db73ee0e3d2d54f0dc85ded2f3460"
   }, {
-    "url": "icons/icon-48x48.png",
-    "revision": "4b9cf11faa6ffa2e6961714de767cde3"
+    "url": "audio/4-6_10min.mp3",
+    "revision": "723835c8f166523d53f8722e380405eb"
+  }, {
+    "url": "audio/water.mp3",
+    "revision": "afac31a45c1269b7adeab3bd59a6568d"
   }, {
     "url": "icons/favicon.ico",
     "revision": "715e85a3c65fd229a318ae9e89ae209f"
@@ -116,6 +119,9 @@ define(['./workbox-ab7aa862'], (function (workbox) { 'use strict';
   }, {
     "url": "icons/icon-384x384.png",
     "revision": "79b1a8f3872ce121b48040c602188b6d"
+  }, {
+    "url": "icons/icon-48x48.png",
+    "revision": "4b9cf11faa6ffa2e6961714de767cde3"
   }, {
     "url": "icons/icon-512x512.png",
     "revision": "50b52da5e7f02810761a32bcc5099d08"
