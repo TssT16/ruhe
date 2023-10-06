@@ -81,11 +81,11 @@ define(['./workbox-ab7aa862'], (function (workbox) { 'use strict';
     "url": "assets/index-a36337d1.css",
     "revision": null
   }, {
-    "url": "assets/index-bf6516b0.js",
+    "url": "assets/index-c66432a0.js",
     "revision": null
   }, {
     "url": "index.html",
-    "revision": "674dd0739e8b981b49dd5426710e7e6f"
+    "revision": "78ca4c9c94600511548cd4b5d3186918"
   }, {
     "url": "registerSW.js",
     "revision": "1872c500de691dce40960bb85481de07"
@@ -101,9 +101,6 @@ define(['./workbox-ab7aa862'], (function (workbox) { 'use strict';
   }, {
     "url": "audio/water.mp3",
     "revision": "afac31a45c1269b7adeab3bd59a6568d"
-  }, {
-    "url": "icons/icon-48x48.png",
-    "revision": "4b9cf11faa6ffa2e6961714de767cde3"
   }, {
     "url": "icons/favicon.ico",
     "revision": "715e85a3c65fd229a318ae9e89ae209f"
@@ -122,6 +119,9 @@ define(['./workbox-ab7aa862'], (function (workbox) { 'use strict';
   }, {
     "url": "icons/icon-384x384.png",
     "revision": "79b1a8f3872ce121b48040c602188b6d"
+  }, {
+    "url": "icons/icon-48x48.png",
+    "revision": "4b9cf11faa6ffa2e6961714de767cde3"
   }, {
     "url": "icons/icon-512x512.png",
     "revision": "50b52da5e7f02810761a32bcc5099d08"
