@@ -18,8 +18,8 @@ const App: Component = () =>
   const [text, setText] = createSignal("");
   const [show, setShow] = createSignal(0);
   const [backaudio, setBackaudio] = createSignal(null);
-  const [backgroundAudio1, setBackgroundAudio1] = createSignal(null);
-  const [backgroundAudio2, setBackgroundAudio2] = createSignal(null);
+//  const [backgroundAudio1, setBackgroundAudio1] = createSignal(null);
+//  const [backgroundAudio2, setBackgroundAudio2] = createSignal(null);
 
   const [timeStart, setTimeStart] = createSignal(0);
   const [duration, setDuration] = createSignal(5); // in minutes
@@ -27,6 +27,8 @@ const App: Component = () =>
 
   const [timeLoop, setTimeLoop] = createSignal(0);
   const [workSession, setWorkSession] = createSignal(false);
+  const [back, setBack] = createSignal(false);
+  const [paused, setPaused] = createSignal(false);
 
   const updateCircle = () =>
   {
@@ -98,7 +100,7 @@ const App: Component = () =>
     }
   }
 
-  const startBackgroundAudio1 = () =>
+  /*const startBackgroundAudio1 = () =>
   {
     if(1 == show())
     {
@@ -113,7 +115,7 @@ const App: Component = () =>
       backgroundAudio2().play()
       setTimeout(startBackgroundAudio1, 10000)
     }
-  }
+  }*/
 
   const startCircle = () =>
   {
@@ -127,23 +129,31 @@ const App: Component = () =>
       backaudio().src = "audio/4-6_"+duration()+"min.mp3"
     }
     backaudio().play()
-    if(null == backgroundAudio1())
+    /*if(null == backgroundAudio1())
     {
       setBackgroundAudio1(new Audio('audio/water.mp3'))
       setBackgroundAudio2(new Audio('audio/water.mp3'))
     }
-    startBackgroundAudio1()
+    startBackgroundAudio1()*/
     setTimeout(updateCircle, 500)
     setText("Inhale")
     setCount(inhale())
     setTimeStart(duration()*60)
+    backaudio().onpause = function()
+    {
+      setPaused(true)
+    };
+    backaudio().onplay = function()
+    {
+      setPaused(false)
+    };
   };
 
   const stopCircle = () =>
   {
     setShow(0)
-    backgroundAudio1().pause()
-    backgroundAudio2().pause()
+    //backgroundAudio1().pause()
+    //backgroundAudio2().pause()
     backaudio().pause()
   };
 
@@ -151,8 +161,9 @@ const App: Component = () =>
   {
     let distance = timeStart() - backaudio().currentTime;
     setTime(pad2(parseInt((distance % (60 * 60)) / 60))+":"+pad2(parseInt((distance % 60))))
-    if(backaudio().paused)
+    if(back())
     {
+      setBack(false)
       if(3 == show())
       {
         setDuration(5)
@@ -195,7 +206,12 @@ const App: Component = () =>
           <button class="btn btn-blue mt-3 !px-6" onClick={() => setShow(0)}>Back</button>
         </Match>
         <Match when={3 == show()}>
-          <button class="btn btn-blue" onClick={stopCircle}>Stop</button>
+          <Show
+            when={paused()}
+            fallback={<button class="btn btn-blue" onClick={() => {setBack(true);stopCircle()}}>Stop</button>}
+          >
+            <button class="btn btn-blue" onClick={() => {backaudio().play()}}>Play</button>
+          </Show>
           <span class="absolute bottom-0 right-16 sm:right-1 text-xs">{time()}</span>
         </Match>
       </Switch>
