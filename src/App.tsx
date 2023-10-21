@@ -27,7 +27,6 @@ const App: Component = () =>
 
   const [timeLoop, setTimeLoop] = createSignal(0);
   const [workSession, setWorkSession] = createSignal(false);
-  const [back, setBack] = createSignal(false);
   const [paused, setPaused] = createSignal(false);
 
   const updateCircle = () =>
@@ -47,6 +46,11 @@ const App: Component = () =>
         setDuration(25)
         setTimeStart(duration()*60)
         setTimeout(updateWorkSession, 500)
+        backaudio().addEventListener("ended", function()
+        {
+          setDuration(5)
+          startCircle()
+        });
       }
     }
 
@@ -161,15 +165,6 @@ const App: Component = () =>
   {
     let distance = timeStart() - backaudio().currentTime;
     setTime(pad2(parseInt((distance % (60 * 60)) / 60))+":"+pad2(parseInt((distance % 60))))
-    if(back())
-    {
-      setBack(false)
-      if(3 == show())
-      {
-        setDuration(5)
-        startCircle()
-      }
-    }
 
     if(3 == show())
     {
@@ -188,7 +183,7 @@ const App: Component = () =>
   return (
     <div class={styles.App}>
       <header class={styles.header}>
-      <span class="absolute bottom-0 left-16 sm:left-1 text-xs">{"v0.05"}</span>
+      <span class="absolute bottom-0 left-16 sm:left-1 text-xs">{"v0.06"}</span>
       <Switch fallback={<div>Not Found</div>}>
         <Match when={0 == show()}>
           <button class="btn btn-blue" onClick={() => setShow(2)}>Breathing 4-6</button>
@@ -208,7 +203,7 @@ const App: Component = () =>
         <Match when={3 == show()}>
           <Show
             when={paused()}
-            fallback={<button class="btn btn-blue" onClick={() => {setBack(true);stopCircle()}}>Stop</button>}
+            fallback={<button class="btn btn-blue" onClick={stopCircle}>Stop</button>}
           >
             <button class="btn btn-blue" onClick={() => {backaudio().play()}}>Play</button>
           </Show>
